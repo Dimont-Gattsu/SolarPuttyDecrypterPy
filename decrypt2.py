@@ -15,8 +15,12 @@ def decrypt(passphrase, ciphertext):
         cipher = DES3.new(key, DES3.MODE_CBC, iv)
         decrypted = unpad(cipher.decrypt(encrypted_content), DES3.block_size)
         return decrypted
-    except Exception as e:
+    except Exception:
         return None
+
+def is_likely_valid_decryption(decrypted_data):
+    # Check if the decrypted data contains the string "Id"
+    return b'"Id":' in decrypted_data
 
 def main():
     parser = argparse.ArgumentParser(description="SolarPutty's Sessions Decrypter")
@@ -34,7 +38,7 @@ def main():
 
         print(f"File content (first 50 bytes): {ciphertext[:50]}")
 
-        with open(args.password_file, 'r') as pass_file:
+        with open(args.password_file, 'r', errors='ignore') as pass_file:
             for password in pass_file:
                 password = password.strip()
                 print(f"Trying password: {password}", end='\r')
@@ -42,33 +46,22 @@ def main():
 
                 decrypted_data = decrypt(password, ciphertext)
 
-                if decrypted_data:
-                    try:
-                        decrypted_text = decrypted_data.decode('utf-8')
-                        print(f"\nSuccessful decryption with password: {password}")
-                        print("\nDecrypted content:")
-                        print(decrypted_text)
+                if decrypted_data and is_likely_valid_decryption(decrypted_data):
+                    print(f"\nPotential successful decryption with password: {password}")
+                    print("Decrypted content (first 200 bytes):")
+                    print(decrypted_data[:200])
 
-                        output_file = "SolarPutty_sessions_decrypted.txt"
-                        with open(output_file, 'w') as file:
-                            file.write(decrypted_text)
+                    output_file = f"SolarPutty_sessions_decrypted_{password}.bin"
+                    with open(output_file, 'wb') as file:
+                        file.write(decrypted_data)
 
-                        print(f"\n[+] DONE Decrypted file is saved in: {output_file}")
+                    print(f"\n[+] DONE Decrypted file is saved in: {output_file}")
+                    
+                    user_input = input("Continue trying other passwords? (y/n): ").lower()
+                    if user_input != 'y':
                         return
 
-                    except UnicodeDecodeError:
-                        print(f"\nSuccessful decryption with password: {password}")
-                        print("\nDecrypted content (binary, first 100 bytes):")
-                        print(decrypted_data[:100])
-
-                        output_file = "SolarPutty_sessions_decrypted.bin"
-                        with open(output_file, 'wb') as file:
-                            file.write(decrypted_data)
-
-                        print(f"\n[+] DONE Decrypted binary file is saved in: {output_file}")
-                        return
-
-            print("\nDecryption failed for all passwords.")
+        print("\nDecryption completed for all passwords.")
 
     except FileNotFoundError as e:
         print(f"Error: File not found - {e.filename}")
