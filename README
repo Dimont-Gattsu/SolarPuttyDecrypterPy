@@ -5,7 +5,7 @@ exploit1.py for basic decryption.
 exploit2.py for a dictionary attack:
 
 
-┌──(kali㉿Kali)-[~/HTB/instant/SolarWindsDecryptPy]
+┌──(kali㉿Kali)-[~/HTB/instant/SolarPuttyDecryptPy]
 └─$ python3 decrypt2.py sessions-backup.dat /usr/share/wordlists/rockyou.txt
 -----------------------------------------------------
 SolarPutty's Sessions Decrypter (Python Version)
