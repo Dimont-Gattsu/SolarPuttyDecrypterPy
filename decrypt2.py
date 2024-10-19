@@ -1,4 +1,4 @@
-#Solar Putty Decrypter for Post Exploitation
+#Solar Putty Decrypter and Brute Forcer for Post Exploitation
 import base64
 from Crypto.Cipher import DES3
 from Crypto.Protocol.KDF import PBKDF2
